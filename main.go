@@ -8,20 +8,20 @@ import (
 
 func main() {
 
-	conf, err := config.Read()
+	cfg, err := config.Read()
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	err = conf.SetUser("extramix")
+	err = cfg.SetUser("extramix")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	conf, err = config.Read()
+	cfg, err = config.Read()
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println(conf.DBURL, conf.CurrentUserName)
+	fmt.Println(cfg.DBURL, cfg.CurrentUserName)
 }
