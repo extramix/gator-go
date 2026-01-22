@@ -53,6 +53,14 @@ func handlerLogin(s *state, cmd command) error {
 	return nil
 }
 
+func handleReset(s *state, _ command) error {
+	if err := s.db.DeleteAllUsers(context.Background()); err != nil {
+		return err
+	}
+	fmt.Println("Reset successfully")
+	return nil
+}
+
 func handlerRegister(s *state, cmd command) error {
 	if len(cmd.args) != 1 {
 		return fmt.Errorf("username is required")
@@ -103,7 +111,7 @@ func main() {
 	args := os.Args
 	// go always include program name as first arg
 	if len(args) < 2 {
-		fmt.Fprintln(os.Stderr, err)
+		fmt.Fprintln(os.Stderr, "no command")
 		os.Exit(1)
 	}
 
@@ -113,6 +121,7 @@ func main() {
 	}
 	cmds.register("login", handlerLogin)
 	cmds.register("register", handlerRegister)
+	cmds.register("reset", handleReset)
 	err = cmds.run(&st, cmd)
 	if err != nil {
 		fmt.Println(err)
